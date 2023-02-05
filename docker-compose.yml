@@ -3,15 +3,15 @@ version: '3.8'
 services:
 
   mongo: 
-    container_name: mongo
-    image: mongo:lastest
+    container_name: mongodb
+    image: mongo:latest
     environment:
       - MONGO_DATAVASE="database"
     ports:
       - 27017:27017
   
   mongo-express:
-    container_name: mongo-express
+    container_name: mongodb-express
     image: mongo-express
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongo
