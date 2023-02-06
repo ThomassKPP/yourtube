@@ -6,7 +6,7 @@ services:
     container_name: mongodb
     image: mongo:latest
     environment:
-      - MONGO_DATAVASE="database"
+      - MONGO_DATABASE="ourtube"
     ports:
       - 27017:27017
   
