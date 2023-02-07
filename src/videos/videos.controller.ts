@@ -8,13 +8,16 @@ import {
   Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import * as fs from 'fs/promises';
 
 @Controller('video')
 export class VideoController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file) {
+  async uploadFile(@UploadedFile() file, @Res() res) {
     console.log(file);
+    await fs.writeFile(`./uploads/${file.originalname}`, file.buffer);
+    return res.sendStatus(201);
   }
 
   @Get(':filepath')
