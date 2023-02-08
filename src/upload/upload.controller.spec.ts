@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UploadController } from './upload.controller';
 
-describe('VideosController', () => {
+describe('UploadController', () => {
   let controller: UploadController;
 
   beforeEach(async () => {

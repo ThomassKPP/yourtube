@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  static verifyJwt: any;
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
@@ -77,10 +78,10 @@ export class AuthService {
 
   async verifyJwt(jwt: string): Promise<{ exp: number }> {
     try {
-      const { exp } = await this.jwtService.verifyAsync(jwt);
-      return { exp };
+      const decoded = await this.jwtService.verifyAsync(jwt);
+      return decoded;
     } catch (error) {
-      throw new HttpException('Invalid JWT', HttpStatus.UNAUTHORIZED);
+      return null;
     }
   }
 }

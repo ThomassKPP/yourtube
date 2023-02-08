@@ -7,7 +7,6 @@ import { UsersModule } from './users/users.module';
 import { VideoModule } from './videos/videos.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from './auth/auth.module';
-import { UploadController } from './upload/upload.controller';
 import { UploadModule } from './upload/upload.module';
 
 @Module({
@@ -19,7 +18,7 @@ import { UploadModule } from './upload/upload.module';
     MulterModule.register({ dest: './UploadedFiles' }),
     UploadModule,
   ],
-  controllers: [AppController, UploadController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
