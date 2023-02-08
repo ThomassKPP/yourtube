@@ -1,7 +1,14 @@
 import { Module } from '@nestjs/common';
-import { VideoController } from './videos.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { VideosController } from './videos.controller';
+import { videos, videosSchema } from './videos.entity';
+import { VideosService } from './videos.service';
 
 @Module({
-  controllers: [VideoController],
+  imports: [
+    MongooseModule.forFeature([{ name: videos.name, schema: videosSchema }]),
+  ],
+  controllers: [VideosController],
+  providers: [VideosService],
 })
-export class VideosModule {}
+export class VideoModule {}

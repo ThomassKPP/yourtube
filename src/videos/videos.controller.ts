@@ -1,27 +1,34 @@
-import {
-  Controller,
-  Post,
-  Get,
-  UseInterceptors,
-  UploadedFile,
-  Param,
-  Res,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import * as fs from 'fs/promises';
+import { Controller, Get, Req } from '@nestjs/common';
+import { VideosService } from './videos.service';
+import { Request } from 'express';
 
-@Controller('video')
-export class VideoController {
-  @Post()
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file, @Res() res) {
-    console.log(file);
-    await fs.writeFile(`./uploads/${file.originalname}`, file.buffer);
-    return res.sendStatus(201);
+@Controller('/videos')
+export class VideosController {
+  constructor(private readonly videosService: VideosService) {}
+
+  @Get('frontend')
+  async frontend() {
+    return this.videosService.find({}).exec();
   }
 
-  @Get(':filepath')
-  seeuploadedFile(@Param('filepath') file, @Res() res) {
-    return res.sendFile(file, { root: './uploads' });
+  @Get('backend')
+  async backend(@Req() req: Request) {
+    let options = {};
+
+    if (req.query.s) {
+      options = {
+        $or: [
+          { title: new RegExp(req.query.s.toString(), 'i') },
+          { description: new RegExp(req.query.s.toString(), 'i') },
+        ],
+      };
+    }
+
+    const query = this.videosService.find(options);
+
+    if (req.query.sort) {
+    }
+
+    return query.exec();
   }
 }
